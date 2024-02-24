@@ -20,6 +20,19 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+
+    private void OnEnable()
+    {
+        PlayerInputGame.MoveInput += Movement;
+        PlayerInputGame.SprintInput += ExtraMovement;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputGame.MoveInput -= Movement;
+        PlayerInputGame.SprintInput -= ExtraMovement;
+    }
+
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -32,12 +45,12 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody.velocity = _smoothedMovementInput * (speed + sprint);
     }
 
-    private void OnMove(InputValue inputValue)
+    private void Movement(InputValue inputValue)
     {
         _movementInput = inputValue.Get<Vector2>().normalized;
     }
 
-    private void OnSprint(InputValue inputValue)
+    private void ExtraMovement(InputValue inputValue)
     {
         if (inputValue.isPressed)
         {
