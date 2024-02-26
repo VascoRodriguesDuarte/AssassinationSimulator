@@ -278,8 +278,30 @@
         {
             "name": "MainMenu",
             "id": "b15e7c2e-6432-4ef9-b748-a3508496d546",
-            "actions": [],
-            "bindings": []
+            "actions": [
+                {
+                    "name": "Start",
+                    "type": "Button",
+                    "id": "5e1dd4a3-a3e3-4b32-b580-2d3821f886cd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "97f68661-5016-4001-b40c-2bd3d76b3f11",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

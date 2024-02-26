@@ -300,8 +300,30 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         {
             ""name"": ""MainMenu"",
             ""id"": ""b15e7c2e-6432-4ef9-b748-a3508496d546"",
-            ""actions"": [],
-            ""bindings"": []
+            ""actions"": [
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e1dd4a3-a3e3-4b32-b580-2d3821f886cd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""97f68661-5016-4001-b40c-2bd3d76b3f11"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -321,6 +343,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Pause_Pause = m_Pause.FindAction("Pause", throwIfNotFound: true);
         // MainMenu
         m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
+        m_MainMenu_Start = m_MainMenu.FindAction("Start", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -552,10 +575,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     // MainMenu
     private readonly InputActionMap m_MainMenu;
     private List<IMainMenuActions> m_MainMenuActionsCallbackInterfaces = new List<IMainMenuActions>();
+    private readonly InputAction m_MainMenu_Start;
     public struct MainMenuActions
     {
         private @PlayerInputs m_Wrapper;
         public MainMenuActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Start => m_Wrapper.m_MainMenu_Start;
         public InputActionMap Get() { return m_Wrapper.m_MainMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -565,10 +590,16 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MainMenuActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MainMenuActionsCallbackInterfaces.Add(instance);
+            @Start.started += instance.OnStart;
+            @Start.performed += instance.OnStart;
+            @Start.canceled += instance.OnStart;
         }
 
         private void UnregisterCallbacks(IMainMenuActions instance)
         {
+            @Start.started -= instance.OnStart;
+            @Start.performed -= instance.OnStart;
+            @Start.canceled -= instance.OnStart;
         }
 
         public void RemoveCallbacks(IMainMenuActions instance)
@@ -604,5 +635,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     }
     public interface IMainMenuActions
     {
+        void OnStart(InputAction.CallbackContext context);
     }
 }

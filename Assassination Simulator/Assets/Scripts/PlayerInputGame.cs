@@ -9,7 +9,7 @@ public class PlayerInputGame : MonoBehaviour
     public static event Action<InputValue> MoveInput;
     public static event Action<InputValue> SprintInput;
     public static PlayerInputGame Instance;
-    public PlayerInput _playerInput;
+    public PlayerInput PlayerInputInstance;
     private GameState _prevGameStatePause;
 
     private void Awake()
@@ -36,22 +36,20 @@ public class PlayerInputGame : MonoBehaviour
     {
         if(state == GameState.Pause)
         {
-            _playerInput.SwitchCurrentActionMap("Pause");
+            PlayerInputInstance.SwitchCurrentActionMap("Pause");
         }
         else if(state == GameState.Overworld)
         {
-            _playerInput.SwitchCurrentActionMap("Default");
+            PlayerInputInstance.SwitchCurrentActionMap("Default");
         }
         else if(state == GameState.Minigame)
         {
-            _playerInput.SwitchCurrentActionMap("Minigame");
+            PlayerInputInstance.SwitchCurrentActionMap("Minigame");
         }
-        else
+        else if(state == GameState.MainMenu)
         {
-            _playerInput.SwitchCurrentActionMap("MainMenu");
+            PlayerInputInstance.SwitchCurrentActionMap("MainMenu");
         }
-
-        //Yeah
     }
 
     private void OnMove(InputValue inputValue)
@@ -74,5 +72,10 @@ public class PlayerInputGame : MonoBehaviour
         {
             GameManager.Instance.UpdateGameState(GameManager.Instance.PrevGameState);
         }
+    }
+
+    private void OnStart(InputValue inputValue)
+    {
+        GameManager.Instance.UpdateGameState(GameState.Overworld);
     }
 }

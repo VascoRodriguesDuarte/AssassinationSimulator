@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Overworld:
                 break;
-            case GameState.Menu:
+            case GameState.MainMenu:
                 break;
             case GameState.Minigame:
                 break;
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 public enum GameState {
         Pause,
         Overworld,
-        Menu,
-        Minigame
+        MainMenu,
+        Minigame,
+        Transition
     }
