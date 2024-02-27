@@ -324,6 +324,34 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Death"",
+            ""id"": ""f55c9618-7772-414a-abdb-9b111127bbde"",
+            ""actions"": [
+                {
+                    ""name"": ""Retry"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8cfb946-d28a-41e8-bf1d-1cc548e8cf41"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f94f7730-b5e8-4769-af09-b33786bb929e"",
+                    ""path"": ""<Keyboard>/Escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Retry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -344,6 +372,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         // MainMenu
         m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
         m_MainMenu_Start = m_MainMenu.FindAction("Start", throwIfNotFound: true);
+        // Death
+        m_Death = asset.FindActionMap("Death", throwIfNotFound: true);
+        m_Death_Retry = m_Death.FindAction("Retry", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -617,6 +648,52 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         }
     }
     public MainMenuActions @MainMenu => new MainMenuActions(this);
+
+    // Death
+    private readonly InputActionMap m_Death;
+    private List<IDeathActions> m_DeathActionsCallbackInterfaces = new List<IDeathActions>();
+    private readonly InputAction m_Death_Retry;
+    public struct DeathActions
+    {
+        private @PlayerInputs m_Wrapper;
+        public DeathActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Retry => m_Wrapper.m_Death_Retry;
+        public InputActionMap Get() { return m_Wrapper.m_Death; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DeathActions set) { return set.Get(); }
+        public void AddCallbacks(IDeathActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DeathActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DeathActionsCallbackInterfaces.Add(instance);
+            @Retry.started += instance.OnRetry;
+            @Retry.performed += instance.OnRetry;
+            @Retry.canceled += instance.OnRetry;
+        }
+
+        private void UnregisterCallbacks(IDeathActions instance)
+        {
+            @Retry.started -= instance.OnRetry;
+            @Retry.performed -= instance.OnRetry;
+            @Retry.canceled -= instance.OnRetry;
+        }
+
+        public void RemoveCallbacks(IDeathActions instance)
+        {
+            if (m_Wrapper.m_DeathActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDeathActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DeathActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DeathActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DeathActions @Death => new DeathActions(this);
     public interface IDefaultActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -636,5 +713,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public interface IMainMenuActions
     {
         void OnStart(InputAction.CallbackContext context);
+    }
+    public interface IDeathActions
+    {
+        void OnRetry(InputAction.CallbackContext context);
     }
 }

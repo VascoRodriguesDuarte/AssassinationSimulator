@@ -22,14 +22,14 @@ public class FadeInAndOut : MonoBehaviour
 
     private void GameManagerOnGameStateChanged(GameState state)
     {
-        if(GameManager.Instance.PrevGameState == GameState.MainMenu && state != GameState.MainMenu)
-        {
-            FadeIn(1);
-        }
-        else if(GameManager.Instance.PrevGameState == GameState.Pause && state == GameState.MainMenu)
-        {
-            FadeIn(0);
-        }
+            if(GameManager.Instance.PrevGameState == GameState.MainMenu && state != GameState.MainMenu)
+            {
+                FadeIn(1);
+            }
+            else if(GameManager.Instance.PrevGameState == GameState.Pause && state == GameState.MainMenu)
+            {
+                FadeIn(0);
+            }
     }
 
     /// <summary>

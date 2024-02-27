@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Minigame:
                 break;
+            case GameState.Death:
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
@@ -58,5 +60,6 @@ public enum GameState {
         Overworld,
         MainMenu,
         Minigame,
-        Transition
+        Transition,
+        Death
     }

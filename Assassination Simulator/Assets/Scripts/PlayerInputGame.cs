@@ -50,6 +50,10 @@ public class PlayerInputGame : MonoBehaviour
         {
             PlayerInputInstance.SwitchCurrentActionMap("MainMenu");
         }
+        else if (state == GameState.Death)
+        {
+            PlayerInputInstance.SwitchCurrentActionMap("Death");
+        }
     }
 
     private void OnMove(InputValue inputValue)
@@ -78,4 +82,5 @@ public class PlayerInputGame : MonoBehaviour
     {
         GameManager.Instance.UpdateGameState(GameState.Overworld);
     }
+
 }

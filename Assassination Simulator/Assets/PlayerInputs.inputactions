@@ -302,6 +302,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Death",
+            "id": "f55c9618-7772-414a-abdb-9b111127bbde",
+            "actions": [
+                {
+                    "name": "Retry",
+                    "type": "Button",
+                    "id": "e8cfb946-d28a-41e8-bf1d-1cc548e8cf41",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f94f7730-b5e8-4769-af09-b33786bb929e",
+                    "path": "<Keyboard>/Escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Retry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
