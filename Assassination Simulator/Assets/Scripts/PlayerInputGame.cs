@@ -22,6 +22,7 @@ public class PlayerInputGame : MonoBehaviour
         else if(Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;

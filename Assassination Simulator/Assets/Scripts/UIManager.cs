@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
             PauseGame(true);
             pauseMenu.SetActive(true);
         }
-        else
+        else if(GameManager.Instance.PrevGameState == GameState.Pause)
         {
             PauseGame(false);
             pauseMenu.SetActive(false);

@@ -54,7 +54,7 @@ public class SpriteMaskController : MonoBehaviour
             return;
         }
         SpriteRenderer spriteRenderer = collision.GetComponent<SpriteRenderer>();
-        if(spriteRenderer != null)
+        if(spriteRenderer != null && collision.gameObject.layer == LayerMask.NameToLayer("BigObject"))
         {
             otherRendereres.Add(spriteRenderer);
             checking = true;
@@ -68,7 +68,7 @@ public class SpriteMaskController : MonoBehaviour
             return;
         }
         SpriteRenderer spriteRenderer = collision.GetComponent<SpriteRenderer>();
-        if(spriteRenderer != null)
+        if(spriteRenderer != null && collision.gameObject.layer == LayerMask.NameToLayer("BigObject"))
         {
             otherRendereres.Remove(spriteRenderer);
             if(otherRendereres.Count <= 0)
